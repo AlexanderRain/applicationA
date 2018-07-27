@@ -1,5 +1,7 @@
 package com.example.a.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -17,11 +19,13 @@ import android.widget.Toast;
 import com.example.a.adapter.CustomLinkAdapter;
 import com.example.a.R;
 import com.example.a.activity.MainActivity;
-import com.example.a.room.Link;
+import com.example.a.model.Link;
+import com.example.a.room.LinkViewModel;
 
 import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
+    public static LinkViewModel mLinkViewModel;
     private static ArrayList<Link> all;
     private static CustomLinkAdapter ma;
     private static ListView lv;
@@ -46,15 +50,19 @@ public class HistoryFragment extends Fragment {
 
         lv.setOnItemClickListener((adapterView, view, i, l) -> {
             if (isOnline(getContext())) {
-                if (!openedLinks.contains(all.get(i).imageLink)) {
+                if (!openedLinks.contains(all.get(i).getImageLink())) {
                     Intent intent = new Intent("com.example.b.MainActivity");
                     intent.putExtra("FROM", "HISTORY");
-                    intent.putExtra("IMAGE_ID", all.get(i).id);
-                    intent.putExtra("IMAGE_LINK", all.get(i).imageLink);
-                    intent.putExtra("IMAGE_STATUS", all.get(i).status);
-                    intent.putExtra("IMAGE_DATE", all.get(i).date);
-                    openedLinks.add(all.get(i).imageLink);
-                    startActivity(intent);
+                    intent.putExtra("IMAGE_ID", all.get(i).getId());
+                    intent.putExtra("IMAGE_LINK", all.get(i).getImageLink());
+                    intent.putExtra("IMAGE_STATUS", all.get(i).getStatus());
+                    intent.putExtra("IMAGE_DATE", all.get(i).getDate());
+                    openedLinks.add(all.get(i).getImageLink());
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        showToast("Приложение B не установлено");
+                    }
                 }
             } else {
                 showToast("Отсутствует подключение к интернету");
@@ -65,9 +73,16 @@ public class HistoryFragment extends Fragment {
     }
 
     private void syncDatabaseWithListView() {
+    /*
         for(Link temp : MainActivity.getLinkDao().getAll()) {
             all.add(temp);
         }
+    */
+        mLinkViewModel = ViewModelProviders.of(this).get(LinkViewModel.class);
+        mLinkViewModel.getmRepository().getmAllLinks().observe(this, links -> {
+            all.clear();
+            all.addAll(links);
+        });
         ma.notifyDataSetChanged();
     }
 

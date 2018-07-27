@@ -3,63 +3,61 @@ package com.example.a.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
-import com.example.a.activity.MainActivity;
 import com.example.a.fragment.HistoryFragment;
-import com.example.a.room.Link;
+import com.example.a.model.Link;
+import com.example.a.room.LinkViewModel;
+
+import java.util.Date;
 
 public class MyReceiver extends BroadcastReceiver {
-
+    LinkViewModel mLinkViewModel;
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getStringExtra("FOR").equals("INSERT")) {
-            int imageID = Link.lastID + 1;
-            String imageURL = intent.getStringExtra("IMAGE_URL");
-            int imageStatus = intent.getIntExtra("IMAGE_STATUS", 3);
-            String imageDate = intent.getStringExtra("IMAGE_DATE");
+        mLinkViewModel = HistoryFragment.mLinkViewModel;
+        String action = intent.getStringExtra("FOR");
+        long imageID = intent.getLongExtra("IMAGE_ID", -1);
+        String imageURL = intent.getStringExtra("IMAGE_URL");
+        int imageStatus = intent.getIntExtra("IMAGE_STATUS", 3);
+        Date imageDate = new Date(intent.getLongExtra("IMAGE_DATE", 0));
 
-            Link link = new Link(imageID, imageURL, imageStatus, imageDate);
+        switch (action) {
+            case "INSERT" :
+                Link link = new Link(imageURL, imageStatus, imageDate);
 
-            MainActivity.getLinkDao().insert(link);
-            HistoryFragment.getAll().add(0, link);
-            HistoryFragment.getMa().notifyDataSetChanged();
-        } else if (intent.getStringExtra("FOR").equals("UPDATE")) {
-            int imageID = intent.getIntExtra("IMAGE_ID", -1);
-            String imageURL = intent.getStringExtra("IMAGE_URL");
-            int imageStatus = intent.getIntExtra("IMAGE_STATUS", 3);
-            String imageDate = intent.getStringExtra("IMAGE_DATE");
+                mLinkViewModel.getmRepository().insertRxJava(link);
+                HistoryFragment.getAll().add(0, link);
+                HistoryFragment.getMa().notifyDataSetChanged();
+                break;
+            case "UPDATE" :
+                Link link2 = new Link(imageID, imageURL, 1, imageDate);
 
-            Link link = new Link(imageID, imageURL, imageStatus, imageDate);
-
-            MainActivity.getLinkDao().update(link);
-            updateFromAllById(imageID);
-            HistoryFragment.getMa().notifyDataSetChanged();
-        } else {
-            int imageID = intent.getIntExtra("IMAGE_ID", -1);
-            String imageURL = intent.getStringExtra("IMAGE_URL");
-
-            MainActivity.getLinkDao().deleteById(imageID);
-            deleteFromAllById(imageID);
-            HistoryFragment.getOpenedLinks().remove(imageURL);
-            HistoryFragment.getMa().notifyDataSetChanged();
+                mLinkViewModel.getmRepository().updateRxJava(link2);
+                updateFromAllById(imageID);
+                HistoryFragment.getMa().notifyDataSetChanged();
+                break;
+            case "DELETE" :
+                mLinkViewModel.getmRepository().deleteByIdRxJava(imageID);
+                deleteFromAllById(imageID);
+                HistoryFragment.getOpenedLinks().remove(imageURL);
+                HistoryFragment.getMa().notifyDataSetChanged();
+                break;
         }
     }
 
-    private void deleteFromAllById(int id) {
+    private void deleteFromAllById(long id) {
         for (Link temp : HistoryFragment.getAll()) {
-            if (temp.id == id) {
+            if (temp.getId() == id) {
                 HistoryFragment.getAll().remove(temp);
                 return;
             }
         }
     }
 
-    private void updateFromAllById(int id) {
+    private void updateFromAllById(long id) {
         for (Link temp : HistoryFragment.getAll()) {
-            if (temp.id == id) {
-                temp.status = 1;
+            if (temp.getId() == id) {
+                temp.setStatus(1);
                 return;
             }
         }
