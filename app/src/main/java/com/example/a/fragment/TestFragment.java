@@ -1,5 +1,6 @@
 package com.example.a.fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,10 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.a.R;
-import com.example.a.activity.MainActivity;
-import com.example.a.room.Link;
-
-import java.util.Collections;
+import com.example.a.model.Link;
 
 public class TestFragment extends Fragment {
     private Button btnOk;
@@ -40,13 +38,17 @@ public class TestFragment extends Fragment {
             if (url.length() == 0) {
                 showToast("Заполните поле");
             } else if (isInAllByLink(url)) {
-                showToast("Ссылка : " + url + " уже есть в базе");
+                showToast("Ссылка " + url + " уже есть в базе");
             } else {
                 Intent i = new Intent("com.example.b.MainActivity");
                 i.putExtra("FROM", "OK");
-                i.putExtra("IMAGE_LINK", link.getText().toString());
+                i.putExtra("IMAGE_LINK", url);
                 link.setText("");
-                startActivity(i);
+                try {
+                    startActivity(i);
+                } catch (ActivityNotFoundException ex) {
+                    showToast("Приложение B не установлено");
+                }
             }
         });
 
@@ -63,7 +65,7 @@ public class TestFragment extends Fragment {
 
     private boolean isInAllByLink(String url) {
         for (Link temp : HistoryFragment.getAll()) {
-            if (temp.imageLink.equals(url)) {
+            if (temp.getImageLink().equals(url)) {
                 return true;
             }
         }

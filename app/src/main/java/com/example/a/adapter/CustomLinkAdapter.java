@@ -1,18 +1,18 @@
 package com.example.a.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.a.R;
-import com.example.a.room.Link;
+import com.example.a.model.Link;
 
 import java.util.ArrayList;
+
+import android.support.annotation.NonNull;
 
 public class CustomLinkAdapter extends ArrayAdapter<Link> {
     private Context mContext;
@@ -24,10 +24,11 @@ public class CustomLinkAdapter extends ArrayAdapter<Link> {
         mResource = resource;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        String imageLink = getItem(position).imageLink;
-        int status = getItem(position).status;
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        String imageLink = getItem(position).getImageLink();
+        int status = getItem(position).getStatus();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

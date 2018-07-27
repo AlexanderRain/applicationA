@@ -1,6 +1,5 @@
 package com.example.a.activity;
 
-import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -14,10 +13,10 @@ import com.example.a.R;
 import com.example.a.adapter.ViewPagerAdapter;
 import com.example.a.fragment.HistoryFragment;
 import com.example.a.fragment.TestFragment;
-import com.example.a.room.AppDatabase;
-import com.example.a.room.LinkDao;
+import com.example.a.room.core.LinkDao;
 
 import java.util.Collections;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private static LinkDao linkDao;
@@ -43,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+/*
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "roomDatabase")
                 .allowMainThreadQueries()
                 .build();
         linkDao = db.linkDao();
+*/
     }
 
     @Override
@@ -61,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
         if (viewPager.getCurrentItem() == 1) {
             if (sortByStatus) {
                 // sort by status
-                Collections.sort(HistoryFragment.getAll(), (link, link2) -> link.status - link2.status);
+                Collections.sort(HistoryFragment.getAll(), (link, link2) -> link.getStatus() - link2.getStatus());
                 sortByStatus = false;
                 showToast("Отсортировано по статусу");
                 HistoryFragment.getMa().notifyDataSetChanged();
             } else {
-                // sort by data
-                Collections.sort(HistoryFragment.getAll(), (link, link2) -> compareDate(link.date, link2.date));
+                // sort by date
+                Collections.sort(HistoryFragment.getAll(), (link, link2) -> link.getDate().compareTo(link2.getDate()));
                 sortByStatus = true;
                 showToast("Отсортировано по дате");
                 HistoryFragment.getMa().notifyDataSetChanged();
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+/*
     private int compareDate(String str, String str2) {
         String[] array = str.split(":");
         String[] array2 = str2.split(":");
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return 0;
     }
-
+*/
     public void showToast(String str) {
         if (toast == null) {
             toast = Toast.makeText(MainActivity.this, null, Toast.LENGTH_SHORT);
@@ -103,8 +105,9 @@ public class MainActivity extends AppCompatActivity {
         toast.setText(str);
         toast.show();
     }
-
+/*
     public static LinkDao getLinkDao() {
         return linkDao;
     }
+*/
 }
