@@ -32,8 +32,7 @@ public class HistoryFragment extends Fragment {
     private static ArrayList<String> openedLinks;
     private Toast toast;
 
-    public HistoryFragment() {
-    }
+
 
     @Nullable
     @Override
