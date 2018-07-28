@@ -21,8 +21,7 @@ public class TestFragment extends Fragment {
     private EditText link;
     private Toast toast;
 
-    public TestFragment() {
-    }
+
 
     @Nullable
     @Override
