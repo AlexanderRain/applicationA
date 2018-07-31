@@ -10,22 +10,27 @@ import android.widget.TextView;
 
 import com.example.a.R;
 import com.example.a.entity.Link;
-import com.example.a.ui.fragment.OnClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.support.annotation.NonNull;
 
+// Если вдруг надо, читал тут
+// devcolibri Урок 11. Работа с RecyclerView на примере TweetsRecyclerView
 public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder> {
 
+    // TO DO: onClickListener
     private List<Link> linksList = new ArrayList<>();
-    OnClickListener.OnItemClickCallback onItemClickCallback;
 
-    public LinkAdapter(OnClickListener.OnItemClickCallback onItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback;
-    }
+//Этим методом инициализирую ^ вон в тот лист, листом из ДБ
+    public void setData(List<Link> linksList){
+            this.linksList = linksList;
+            notifyDataSetChanged();
+        }
 
+    // Требует переопределения, создает собственно вьюху
+    // для ссылки, то есть одну строку
     @NonNull
     @Override
     public LinkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,17 +39,15 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
         return new LinkViewHolder(view);
     }
 
-    public void setData(List<Link> linksList){
-        this.linksList = linksList;
-        notifyDataSetChanged();
-    }
-
+    // Требует переопределения, связь вьюхи с джава классами
+    // так сказать дает логику картике
     @Override
     public void onBindViewHolder(@NonNull LinkViewHolder holder, int position) {
         Link link = linksList.get(position);
         holder.bind(link, position);
     }
 
+    // Требует переопределения (не понял где он вызывается)
     @Override
     public int getItemCount() {
         return linksList.size();
@@ -53,6 +56,9 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
     // Предоставляет прямую ссылку на каждый View-компонент
     // Используется для кэширования View-компонентов и последующего быстрого доступа к ним
     class LinkViewHolder extends RecyclerView.ViewHolder {
+        // Ваш ViewHolder должен содержать переменные для всех
+        // View-компонентов, которым вы хотите задавать какие-либо свойства
+        // в процессе работы пользователя со списком
 
         Context context;
         TextView imageTextView;
@@ -67,12 +73,13 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
             imageTextView = itemView.findViewById(R.id.image_link);
         }
 
+        // Заполняет контейнер ссылкой и цветом
         void bind(Link link, int position){
-            imageLinkContainer.setOnClickListener(new OnClickListener(position, onItemClickCallback));
             imageTextView.setText(link.getImageLink());
             setLinkColor(link.getStatus());
         }
 
+        // Метод со свечкой, тут все очевидно
         private void setLinkColor(int status) {
             switch (status) {
                 case 1:
@@ -89,45 +96,3 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
     }
 
 }
-
-/*public class LinkAdapter extends ArrayAdapter<Link> {
-    private Context mContext;
-    private int mResource;
-
-    public LinkAdapter(Context context, int resource, ArrayList<Link> objects) {
-        super(context, resource, objects);
-        mContext = context;
-        mResource = resource;
-    }
-
-    @NonNull
-    @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        String imageLink = getItem(position).getImageLink();
-        int status = getItem(position).getStatus();
-
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource, parent, false);
-
-        TextView tvLink = convertView.findViewById(R.id.textView);
-
-        tvLink.setText(imageLink);
-
-        switch (status) {
-            case 1:
-                convertView.setBackgroundColor(convertView.getResources().getColor(R.color.green));
-//                convertView.setBackgroundColor(Color.GREEN);
-                break;
-            case 2:
-                convertView.setBackgroundColor(convertView.getResources().getColor(R.color.red));
-//                convertView.setBackgroundColor(Color.RED);
-                break;
-            case 3:
-                convertView.setBackgroundColor(convertView.getResources().getColor(R.color.gray));
-//                convertView.setBackgroundColor(Color.GRAY);
-                break;
-        }
-
-        return convertView;
-    }
-}*/

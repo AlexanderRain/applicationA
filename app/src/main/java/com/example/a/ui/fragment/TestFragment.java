@@ -1,4 +1,4 @@
-package com.example.a.fragment;
+package com.example.a.ui.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.a.R;
-import com.example.a.model.Link;
+import com.example.a.entity.Link;
 
 public class TestFragment extends Fragment {
     private Button btnOk;
@@ -36,9 +36,9 @@ public class TestFragment extends Fragment {
             String url = link.getText().toString();
             if (url.length() == 0) {
                 showToast("Заполните поле");
-            } else if (isInAllByLink(url)) {
+            } /*else if (isInAllByLink(url)) {
                 showToast("Ссылка " + url + " уже есть в базе");
-            } else {
+            }*/ else {
                 Intent i = new Intent("com.example.b.MainActivity");
                 i.putExtra("FROM", "OK");
                 i.putExtra("IMAGE_LINK", url);
@@ -62,12 +62,12 @@ public class TestFragment extends Fragment {
         toast.show();
     }
 
-    private boolean isInAllByLink(String url) {
+    /*private boolean isInAllByLink(String url) {
         for (Link temp : HistoryFragment.getAll()) {
             if (temp.getImageLink().equals(url)) {
                 return true;
             }
         }
         return false;
-    }
+    }*/
 }

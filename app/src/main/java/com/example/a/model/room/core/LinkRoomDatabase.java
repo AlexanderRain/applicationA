@@ -1,16 +1,17 @@
-package com.example.a.room.core;
+package com.example.a.model.room.core;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.example.a.model.Link;
+import com.example.a.entity.Link;
 
 @Database(entities = {Link.class}, version = 1, exportSchema = false)
 public abstract class LinkRoomDatabase extends RoomDatabase {
     public abstract LinkDao linkDao();
     private static LinkRoomDatabase INSTANCE;
+
     public static LinkRoomDatabase getDatabase(final Context context) {
         if(INSTANCE == null) {
             synchronized(LinkRoomDatabase.class) {}

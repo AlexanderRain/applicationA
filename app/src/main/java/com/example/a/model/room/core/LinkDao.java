@@ -1,4 +1,4 @@
-package com.example.a.room.core;
+package com.example.a.model.room.core;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.arch.persistence.room.Delete;
 
-import com.example.a.model.Link;
+import com.example.a.entity.Link;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface LinkDao {
     void delete(Link link);
 }
 
-/*package com.example.a.room;
+/*package com.example.a.model.room;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;

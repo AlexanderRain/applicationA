@@ -1,4 +1,4 @@
-package com.example.a.model;
+package com.example.a.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.example.a.model.room.core.converters.DateConverter;
+import com.example.a.model.room.converters.DateConverter;
 
 import java.util.Date;
 

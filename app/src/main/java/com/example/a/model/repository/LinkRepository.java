@@ -1,10 +1,10 @@
-package com.example.a.model.room;
+package com.example.a.model.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.a.model.Link;
+import com.example.a.entity.Link;
 import com.example.a.model.room.core.LinkDao;
 import com.example.a.model.room.core.LinkRoomDatabase;
 
@@ -17,6 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LinkRepository {
 
+    Context application;
+
     private LinkDao mLinkDao;
 
     private LiveData<List<Link>> mAllLinks;
@@ -28,6 +30,7 @@ public class LinkRepository {
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     public LinkRepository(Context application) {
+        this.application = application;
         LinkRoomDatabase database = LinkRoomDatabase.getDatabase(application);
         mLinkDao = database.linkDao();
         mAllLinks = mLinkDao.getAllLinks();

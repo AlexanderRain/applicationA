@@ -4,24 +4,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.a.fragment.HistoryFragment;
-import com.example.a.model.Link;
-import com.example.a.room.LinkViewModel;
+import com.example.a.ui.fragment.HistoryFragment;
+import com.example.a.entity.Link;
+import com.example.a.model.room.LinkViewModel;
 
 import java.util.Date;
 
 public class MyReceiver extends BroadcastReceiver {
-    LinkViewModel mLinkViewModel;
+ LinkViewModel mLinkViewModel;
     @Override
     public void onReceive(Context context, Intent intent) {
-        mLinkViewModel = HistoryFragment.mLinkViewModel;
+       // mLinkViewModel = HistoryFragment.mLinkViewModel;
         String action = intent.getStringExtra("FOR");
         long imageID = intent.getLongExtra("IMAGE_ID", -1);
         String imageURL = intent.getStringExtra("IMAGE_URL");
         int imageStatus = intent.getIntExtra("IMAGE_STATUS", 3);
         Date imageDate = new Date(intent.getLongExtra("IMAGE_DATE", 0));
 
-        switch (action) {
+        /*switch (action) {
             case "INSERT" :
                 Link link = new Link(imageURL, imageStatus, imageDate);
 
@@ -42,10 +42,10 @@ public class MyReceiver extends BroadcastReceiver {
                 HistoryFragment.getOpenedLinks().remove(imageURL);
                 HistoryFragment.getMa().notifyDataSetChanged();
                 break;
-        }
+        }*/
     }
 
-    private void deleteFromAllById(long id) {
+    /*private void deleteFromAllById(long id) {
         for (Link temp : HistoryFragment.getAll()) {
             if (temp.getId() == id) {
                 HistoryFragment.getAll().remove(temp);
@@ -61,5 +61,5 @@ public class MyReceiver extends BroadcastReceiver {
                 return;
             }
         }
-    }
+    }*/
 }

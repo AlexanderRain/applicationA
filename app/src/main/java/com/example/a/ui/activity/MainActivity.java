@@ -1,4 +1,4 @@
-package com.example.a.activity;
+package com.example.a.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,13 +10,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.a.R;
-import com.example.a.adapter.ViewPagerAdapter;
-import com.example.a.fragment.HistoryFragment;
-import com.example.a.fragment.TestFragment;
-import com.example.a.room.core.LinkDao;
-
-import java.util.Collections;
-import java.util.Date;
+import com.example.a.ui.adapter.ViewPagerAdapter;
+import com.example.a.ui.fragment.HistoryFragment;
+import com.example.a.ui.fragment.TestFragment;
+import com.example.a.model.room.core.LinkDao;
 
 public class MainActivity extends AppCompatActivity {
     private static LinkDao linkDao;
@@ -62,16 +59,16 @@ public class MainActivity extends AppCompatActivity {
         if (viewPager.getCurrentItem() == 1) {
             if (sortByStatus) {
                 // sort by status
-                Collections.sort(HistoryFragment.getAll(), (link, link2) -> link.getStatus() - link2.getStatus());
+                //Collections.sort(HistoryFragment.getAll(), (link, link2) -> link.getStatus() - link2.getStatus());
                 sortByStatus = false;
                 showToast("Отсортировано по статусу");
-                HistoryFragment.getMa().notifyDataSetChanged();
+                //HistoryFragment.getMa().notifyDataSetChanged();
             } else {
                 // sort by date
-                Collections.sort(HistoryFragment.getAll(), (link, link2) -> link.getDate().compareTo(link2.getDate()));
+               //Collections.sort(HistoryFragment.getAll(), (link, link2) -> link.getDate().compareTo(link2.getDate()));
                 sortByStatus = true;
                 showToast("Отсортировано по дате");
-                HistoryFragment.getMa().notifyDataSetChanged();
+                //HistoryFragment.getMa().notifyDataSetChanged();
             }
         } else {
             showToast("Перейдите в Историю");

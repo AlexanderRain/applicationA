@@ -1,4 +1,4 @@
-package com.example.a.model.room.core.converters;
+package com.example.a.model.room.converters;
 
 import android.arch.persistence.room.TypeConverter;
 
