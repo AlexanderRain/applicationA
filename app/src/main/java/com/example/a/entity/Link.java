@@ -6,7 +6,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.example.a.room.core.converters.DateConverter;
+import com.example.a.model.room.core.converters.DateConverter;
 
 import java.util.Date;
 
@@ -75,7 +75,7 @@ public class Link {
 
 
 /*
-package com.example.a.room;
+package com.example.a.model.room;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

@@ -1,12 +1,12 @@
-package com.example.a.room;
+package com.example.a.model.room;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
 
 import com.example.a.model.Link;
-import com.example.a.room.core.LinkDao;
-import com.example.a.room.core.LinkRoomDatabase;
+import com.example.a.model.room.core.LinkDao;
+import com.example.a.model.room.core.LinkRoomDatabase;
 
 import java.util.List;
 
