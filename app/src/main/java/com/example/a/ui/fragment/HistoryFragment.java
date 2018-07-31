@@ -31,6 +31,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if(presenter == null){
