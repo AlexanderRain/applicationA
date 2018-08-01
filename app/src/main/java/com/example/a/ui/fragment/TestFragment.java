@@ -14,60 +14,62 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.a.R;
-import com.example.a.entity.Link;
+
 
 public class TestFragment extends Fragment {
-    private Button btnOk;
-    private EditText link;
+    private View view;
+    private Button button;
+    private EditText textField;
     private Toast toast;
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Фрагмент не сдохнет при повороте екрана,
+        //поля не инициализируются заново
+        setRetainInstance(true);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.test_fragment, container, false);
+        view = inflater.inflate(R.layout.test_fragment, container, false);
+        return view;
+    }
 
-        link = rootView.findViewById(R.id.link);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        btnOk = rootView.findViewById(R.id.btnOk);
+        textField = view.findViewById(R.id.link);
+        button = view.findViewById(R.id.button);
 
-        btnOk.setOnClickListener(e -> {
-            String url = link.getText().toString();
+        button.setOnClickListener(e -> {
+            String url = textField.getText().toString();
             if (url.length() == 0) {
-                showToast("Заполните поле");
+                //showToast("Заполните поле");
             } /*else if (isInAllByLink(url)) {
                 showToast("Ссылка " + url + " уже есть в базе");
             }*/ else {
                 Intent i = new Intent("com.example.b.MainActivity");
                 i.putExtra("FROM", "OK");
                 i.putExtra("IMAGE_LINK", url);
-                link.setText("");
+                textField.setText("");
                 try {
                     startActivity(i);
                 } catch (ActivityNotFoundException ex) {
-                    showToast("Приложение B не установлено");
+                    //showToast("Приложение B не установлено");
                 }
             }
         });
-
-        return rootView;
     }
 
-    public void showToast(String str) {
+   /* public void showToast(String str) {
         if (toast == null) {
             toast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
         }
         toast.setText(str);
         toast.show();
-    }
-
-    /*private boolean isInAllByLink(String url) {
-        for (Link temp : HistoryFragment.getAll()) {
-            if (temp.getImageLink().equals(url)) {
-                return true;
-            }
-        }
-        return false;
     }*/
+
 }

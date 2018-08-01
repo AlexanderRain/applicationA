@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.a.R;
 import com.example.a.entity.Link;
+import com.example.a.ui.adapter.utils.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +23,17 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
 
     // TO DO: onClickListener
     private List<Link> linksList = new ArrayList<>();
+    OnItemClickListener.OnItemClickCallback onItemClickCallback;
+
+    public LinkAdapter(OnItemClickListener.OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
 
 //Этим методом инициализирую ^ вон в тот лист, листом из ДБ
     public void setData(List<Link> linksList){
             this.linksList = linksList;
             notifyDataSetChanged();
-        }
+    }
 
     // Требует переопределения, создает собственно вьюху
     // для ссылки, то есть одну строку
@@ -75,6 +81,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
 
         // Заполняет контейнер ссылкой и цветом
         void bind(Link link, int position){
+            imageLinkContainer.setOnClickListener(new OnItemClickListener(position, onItemClickCallback));
             imageTextView.setText(link.getImageLink());
             setLinkColor(link.getStatus());
         }
