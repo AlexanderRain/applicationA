@@ -1,6 +1,8 @@
 package com.example.a.ui.fragment;
 
 import android.arch.lifecycle.LiveData;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -86,6 +88,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         @Override
         public void onItemClicked(View view, int position) {
             Log.e("Log", " CLICKED " + position);
+            presenter.exportChosenLink(position);
         }
     };
 
@@ -105,13 +108,34 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        switch (item.getItemId()) {
+            case R.id.sort_by_date:
+                Log.e("Log", "sort_by_date");
+                break;
+            case R.id.sort_by_status:
+                Log.e("Log", "sort_by_status");
+                break;
+        }
         return true;
     }
 
-    // TO DO: заветруть сюда интенты и тд
     @Override
-    public void exportToAppB() {
+    public void exportChosenLink(final LiveData<List<Link>> linkList, int position) {
+        Intent intent = new Intent("com.example.b.MainActivity");
 
+        linkList.observe(this, links -> {
+            intent.putExtra("IMAGE_LINK",  links.get(position).getImageLink());
+            Log.e("Log", " link " + links.get(position).getImageLink());
+            intent.putExtra("IMAGE_STATUS", links.get(position).getStatus());
+            Log.e("Log", " status " + links.get(position).getStatus());
+        });
+
+        try {
+            startActivity(intent);
+            Log.e("Log", "STARTED");
+        } catch (ActivityNotFoundException exception) {
+            Toast.makeText(getActivity(),"Приложение В не установлено", Toast.LENGTH_SHORT).show();
+            Log.e("Log", "ActivityNotFoundException: " + exception);
+        }
     }
 }

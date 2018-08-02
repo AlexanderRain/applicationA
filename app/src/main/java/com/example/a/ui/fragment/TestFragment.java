@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ public class TestFragment extends Fragment {
     private View view;
     private Button button;
     private EditText textField;
-    private Toast toast;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,32 +44,28 @@ public class TestFragment extends Fragment {
         textField = view.findViewById(R.id.link);
         button = view.findViewById(R.id.button);
 
-        button.setOnClickListener(e -> {
-            String url = textField.getText().toString();
-            if (url.length() == 0) {
-                //showToast("Заполните поле");
-            } /*else if (isInAllByLink(url)) {
-                showToast("Ссылка " + url + " уже есть в базе");
-            }*/ else {
-                Intent i = new Intent("com.example.b.MainActivity");
-                i.putExtra("FROM", "OK");
-                i.putExtra("IMAGE_LINK", url);
-                textField.setText("");
-                try {
-                    startActivity(i);
-                } catch (ActivityNotFoundException ex) {
-                    //showToast("Приложение B не установлено");
-                }
-            }
+        button.setOnClickListener( onClickListener  -> {
+            // текст в строку без пробелов
+            exportLink(textField.getText().toString().trim());
         });
     }
 
-   /* public void showToast(String str) {
-        if (toast == null) {
-            toast = Toast.makeText(getContext(), null, Toast.LENGTH_SHORT);
+    public void exportLink(String url) {
+        if (url.length() == 0) {
+            Toast.makeText(getActivity(), "Заполните поле", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent("com.example.b.MainActivity");
+            intent.putExtra("IMAGE_LINK", url);
+            Log.e("Log", "URL: " + url);
+
+            try {
+                startActivity(intent);
+                Log.e("Log", "STARTED");
+            } catch (ActivityNotFoundException exception) {
+                Toast.makeText(getActivity(), "Приложение В не установлено", Toast.LENGTH_SHORT).show();
+                Log.e("Log", "ActivityNotFoundException: " + exception);
+            }
         }
-        toast.setText(str);
-        toast.show();
-    }*/
+    }
 
 }

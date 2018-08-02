@@ -9,7 +9,7 @@ import java.util.List;
 // Этим интерфейсом описываются основные методы фрагмента
 public interface HistoryView {
 
-    void setLinksList(final LiveData<List<Link>> allList);
-    void exportToAppB();
+    void setLinksList(final LiveData<List<Link>> linkList);
+    void exportChosenLink(final LiveData<List<Link>> linkList, int position);
 
 }

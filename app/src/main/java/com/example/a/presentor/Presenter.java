@@ -25,4 +25,8 @@ public class Presenter {
     public void insertLink(Link exampleLink) {
         interactor.getmRepository().insertRxJava(exampleLink);
     }
+
+    public void exportChosenLink(int position) {
+        view.exportChosenLink(interactor.getmRepository().getmAllLinks(), position);
+    }
 }

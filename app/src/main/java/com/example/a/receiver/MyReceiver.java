@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.a.ui.fragment.HistoryFragment;
-import com.example.a.entity.Link;
 import com.example.a.model.room.LinkViewModel;
 
 import java.util.Date;
