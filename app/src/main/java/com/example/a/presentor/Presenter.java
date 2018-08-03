@@ -14,6 +14,7 @@ public class Presenter {
         this.view = view;
         //historyFragment нужен для єтого метода, а там хз возможно можно проще
         //єто из-за бд, так шо Лужецкий разберись xD)
+        //Eugene: так должно быть
         interactor = ViewModelProviders.of(historyFragment).get(Interactor.class);
     }
 

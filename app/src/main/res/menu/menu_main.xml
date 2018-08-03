@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.MainActivity">
-
+        <!--Eugene: И это пожалуй уберём отсюдава
         <item
             android:id="@+id/sort_by_date"
             android:title="Sort by date"
@@ -13,5 +13,10 @@
             android:id="@+id/sort_by_status"
             android:title="Sort by status"
             app:showAsAction="never" />
-
+        -->
+        <item
+            android:id="@+id/action_sort"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="@string/sort_title"
+            app:showAsAction="ifRoom" />
 </menu>
