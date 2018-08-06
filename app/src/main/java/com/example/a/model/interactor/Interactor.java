@@ -1,29 +1,22 @@
 package com.example.a.model.interactor;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
+import android.content.Context;
 
 import com.example.a.model.repository.LinkRepository;
 
 // ЭТО БЫВШИЙ LinkViewModel,
-public class Interactor extends AndroidViewModel {
+public class Interactor {
 
     private LinkRepository linkRepository;
 
-    public Interactor(Application application) {
-        super(application);
-        linkRepository = new LinkRepository(application);
+    public Interactor(Context context) {
+        linkRepository = new LinkRepository(context);
     }
 
     public LinkRepository getmRepository() {
         return linkRepository;
     }
 
-    @Override
-    protected void onCleared() {
-        linkRepository.unsubscribeRxJava();
-        super.onCleared();
-    }
 
     //TO DO: методы для ВЫЗОВА сортировки
     //(саму сортировку описать в репозитории, сюда только метод подтягивать),

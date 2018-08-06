@@ -22,7 +22,6 @@ import com.example.a.R;
 import com.example.a.entity.Link;
 import com.example.a.presentor.HistoryView;
 import com.example.a.presentor.Presenter;
-import com.example.a.ui.activity.MainActivity;
 import com.example.a.ui.adapter.LinkAdapter;
 import com.example.a.ui.adapter.utils.OnItemClickListener;
 
@@ -50,7 +49,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
         if(presenter == null){
             // я блять в душе не ебу как так работает )0)
-            presenter = new Presenter(this, this);
+            presenter = new Presenter(this.getActivity().getApplication(), this);
         }
     }
 
@@ -124,15 +123,14 @@ public class HistoryFragment extends Fragment implements HistoryView {
         Intent intent = new Intent("com.example.b.MainActivity");
 
         linkList.observe(this, links -> {
+            intent.putExtra("FROM", "HISTORY");
             intent.putExtra("IMAGE_LINK",  links.get(position).getImageLink());
-            Log.e("Log", " link " + links.get(position).getImageLink());
             intent.putExtra("IMAGE_STATUS", links.get(position).getStatus());
-            Log.e("Log", " status " + links.get(position).getStatus());
+            intent.putExtra("IMAGE_ID", links.get(position).getId());
         });
 
         try {
             startActivity(intent);
-            Log.e("Log", "STARTED");
         } catch (ActivityNotFoundException exception) {
             Toast.makeText(getActivity(),"Приложение В не установлено", Toast.LENGTH_SHORT).show();
             Log.e("Log", "ActivityNotFoundException: " + exception);

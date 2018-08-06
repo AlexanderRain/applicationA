@@ -55,8 +55,8 @@ public class TestFragment extends Fragment {
             Toast.makeText(getActivity(), "Заполните поле", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent("com.example.b.MainActivity");
+            intent.putExtra("FROM", "OK");
             intent.putExtra("IMAGE_LINK", url);
-            Log.e("Log", "URL: " + url);
 
             try {
                 startActivity(intent);
