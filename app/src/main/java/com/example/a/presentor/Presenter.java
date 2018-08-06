@@ -15,6 +15,7 @@ public class Presenter extends AndroidViewModel {
         this.view = view;
         //historyFragment нужен для єтого метода, а там хз возможно можно проще
         //єто из-за бд, так шо Лужецкий разберись xD)
+
         interactor = new Interactor(application);
     }
 

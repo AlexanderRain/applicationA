@@ -10,6 +10,8 @@ import java.util.List;
 public interface HistoryView {
 
     void setLinksList(final LiveData<List<Link>> linkList);
+    void sortLinksList(List<Link> linkList, String sortingMode);
+    void showSortDialog();
     void exportChosenLink(final LiveData<List<Link>> linkList, int position);
 
 }

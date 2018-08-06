@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">A</string>
-    <string name="btn_ok">Ok</string>
+    <string name="sort_old_new">От старых к новым</string>
+    <string name="sort_new_old">От новых к старым</string>
+    <string name="sort_success_error">Сначала успешно загруженные</string>
+    <string name="sort_error_success">Сначала с ошибками</string>
+    <string name="button_sort">Отсортировать</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="sort_title">Сортировка</string>
 </resources>
