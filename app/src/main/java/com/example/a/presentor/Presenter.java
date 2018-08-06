@@ -1,25 +1,32 @@
 package com.example.a.presentor;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.v4.app.Fragment;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 
 import com.example.a.entity.Link;
 import com.example.a.model.interactor.Interactor;
 
-public class Presenter {
+public class Presenter extends AndroidViewModel {
     HistoryView view;
     Interactor interactor;
 
-    public Presenter(HistoryView view, Fragment historyFragment) {
+    public Presenter(Application application, HistoryView view) {
+        super(application);
         this.view = view;
         //historyFragment нужен для єтого метода, а там хз возможно можно проще
         //єто из-за бд, так шо Лужецкий разберись xD)
-        //Eugene: так должно быть
-        interactor = ViewModelProviders.of(historyFragment).get(Interactor.class);
+
+        interactor = new Interactor(application);
     }
 
     public void getImageList() {
         view.setLinksList(interactor.getmRepository().getmAllLinks());
+    }
+
+    @Override
+    protected void onCleared() {
+        interactor.getmRepository().unsubscribeRxJava();
+        super.onCleared();
     }
 
     // ВРЕМЕННО !!!

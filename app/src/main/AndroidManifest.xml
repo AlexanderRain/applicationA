@@ -26,7 +26,7 @@
         </activity>
 
         <receiver
-            android:name=".receiver.MyReceiver"
+            android:name=".receiver.IntentReceiver"
             android:enabled="true"
             android:exported="true">
 
