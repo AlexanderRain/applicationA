@@ -6,6 +6,11 @@ import android.arch.lifecycle.AndroidViewModel;
 import com.example.a.entity.Link;
 import com.example.a.model.interactor.Interactor;
 
+import java.util.Collections;
+import java.util.List;
+
+import static com.example.a.ui.adapter.utils.Constants.*;
+
 public class Presenter extends AndroidViewModel {
     HistoryView view;
     Interactor interactor;
@@ -21,6 +26,25 @@ public class Presenter extends AndroidViewModel {
 
     public void getImageList() {
         view.setLinksList(interactor.getmRepository().getmAllLinks());
+    }
+
+    public void sortLinksList(List<Link> linkList, String sortingMode) {
+        switch (sortingMode) {
+            case OLD_NEW:
+                Collections.sort(linkList, (link1, link2) -> link1.getDate().compareTo(link2.getDate()));
+                break;
+            case NEW_OLD:
+                Collections.sort(linkList, (link1, link2) -> link2.getDate().compareTo(link1.getDate()));
+                break;
+            case SUCCESS_ERROR:
+                Collections.sort(linkList, (link1, link2) -> link1.getDate().compareTo(link2.getDate()));
+                Collections.sort(linkList, (link1, link2) -> link1.getStatus() - link2.getStatus());
+                break;
+            case ERROR_SUCCESS:
+                Collections.sort(linkList, (link1, link2) -> link1.getDate().compareTo(link2.getDate()));
+                Collections.sort(linkList, (link1, link2) -> link2.getStatus() - link1.getStatus());
+                break;
+        }
     }
 
     @Override

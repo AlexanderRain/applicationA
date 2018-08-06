@@ -1,6 +1,7 @@
 package com.example.a.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -77,6 +78,7 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
             context = itemView.getContext();
             imageLinkContainer = itemView.findViewById(R.id.image_link_container);
             imageTextView = itemView.findViewById(R.id.image_link);
+            imageTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         }
 
         // Заполняет контейнер ссылкой и цветом

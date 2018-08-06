@@ -104,30 +104,10 @@ public class HistoryFragment extends Fragment implements HistoryView {
     public void setLinksList(final LiveData<List<Link>> linkList) {
         // Красиво, правда ?) подписываемся на лайв дату и пхаем список ссылок в сет
         linkList.observe(this, links -> {
-            sortLinksList(links, currentSortingMode);
+            presenter.sortLinksList(links, currentSortingMode);
             linkAdapter.setData(links);
         });
         linkAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void sortLinksList(List<Link> linkList, String sortingMode) {
-        switch (sortingMode) {
-            case OLD_NEW:
-                Collections.sort(linkList, (link1, link2) -> link1.getDate().compareTo(link2.getDate()));
-                break;
-            case NEW_OLD:
-                Collections.sort(linkList, (link1, link2) -> link2.getDate().compareTo(link1.getDate()));
-                break;
-            case SUCCESS_ERROR:
-                Collections.sort(linkList, (link1, link2) -> link1.getDate().compareTo(link2.getDate()));
-                Collections.sort(linkList, (link1, link2) -> link1.getStatus() - link2.getStatus());
-                break;
-            case ERROR_SUCCESS:
-                Collections.sort(linkList, (link1, link2) -> link1.getDate().compareTo(link2.getDate()));
-                Collections.sort(linkList, (link1, link2) -> link2.getStatus() - link1.getStatus());
-                break;
-        }
     }
 
     //Eugene: Создание диалогового окна для выбора режима сортировки
