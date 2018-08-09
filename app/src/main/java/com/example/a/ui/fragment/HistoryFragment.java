@@ -25,14 +25,12 @@ import com.example.a.entity.Link;
 import com.example.a.presentor.HistoryView;
 import com.example.a.presentor.Presenter;
 import com.example.a.ui.adapter.LinkAdapter;
-import com.example.a.ui.adapter.utils.OnItemClickListener;
+import com.example.a.ui.adapter.OnClickListener.OnItemClickListener;
 
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-import static com.example.a.ui.adapter.utils.Constants.*;
+import static com.example.a.utils.Constants.*;
 
 public class HistoryFragment extends Fragment implements HistoryView {
     View view;
@@ -48,14 +46,10 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Фрагмент не сдохнет при повороте екрана,
-        //поля не инициализируются заново
         setRetainInstance(true);
-        //Добавляет опц менюху
         setHasOptionsMenu(true);
 
         if(presenter == null){
-            // я блять в душе не ебу как так работает )0)
             presenter = new Presenter(this.getActivity().getApplication(), this);
         }
     }
@@ -71,38 +65,26 @@ public class HistoryFragment extends Fragment implements HistoryView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // инициализация recyclerView и LayoutManager
         recyclerView = view.findViewById(R.id.recycler_view);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         linkAdapter = new LinkAdapter(onItemClickCallback);
 
-        // добавление ссылки в бд // ВРЕМЕННО
-        Link exampleLink = new Link("example", 1, new Date(System.currentTimeMillis()));
-        Link exampleLink2 = new Link("example2", 1, new Date(System.currentTimeMillis()+10000));
-        Link exampleLink3 = new Link("example3", 2, new Date(System.currentTimeMillis()+20000));
-        presenter.insertLink(exampleLink);
-        presenter.insertLink(exampleLink2);
-        presenter.insertLink(exampleLink3);
-
-        //по смыслу должно быть все понятно
         presenter.getImageList();
         recyclerView.setAdapter(linkAdapter);
 
     }
 
-    // Инициализация лисенера
     OnItemClickListener.OnItemClickCallback onItemClickCallback = new OnItemClickListener.OnItemClickCallback() {
         @Override
         public void onItemClicked(View view, int position) {
             Log.e("Log", " CLICKED " + position);
-            presenter.exportChosenLink(position);
+            presenter.getChosenLink(position);
         }
     };
 
     @Override
     public void setLinksList(final LiveData<List<Link>> linkList) {
-        // Красиво, правда ?) подписываемся на лайв дату и пхаем список ссылок в сет
         linkList.observe(this, links -> {
             presenter.sortLinksList(links, currentSortingMode);
             linkAdapter.setData(links);
@@ -110,7 +92,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
         linkAdapter.notifyDataSetChanged();
     }
 
-    //Eugene: Создание диалогового окна для выбора режима сортировки
     @Override
     public void showSortDialog() {
         View root = getLayoutInflater().inflate(R.layout.sort_dialog, null);
@@ -141,7 +122,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
                 .show();
     }
 
-    //Кнопочки сортировки
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -151,14 +131,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            /*Eugene: Не надо нам этого, сделаем иначе (и зачем здесь что-то кидать в лог?)
-            case R.id.sort_by_date:
-                Log.e("Log", "sort_by_date");
-                break;
-            case R.id.sort_by_status:
-                Log.e("Log", "sort_by_status");
-                break;
-             */
             case R.id.action_sort: showSortDialog();
                 break;
         }
@@ -167,13 +139,11 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     @Override
     public void exportChosenLink(final LiveData<List<Link>> linkList, int position) {
-        Intent intent = new Intent("com.example.b.MainActivity");
+        Intent intent = new Intent("com.example.b.activity.presentation.ui.activities.MainActivity");
 
         linkList.observe(this, links -> {
-            intent.putExtra("FROM", "HISTORY");
-            intent.putExtra("IMAGE_LINK",  links.get(position).getImageLink());
-            intent.putExtra("IMAGE_STATUS", links.get(position).getStatus());
-            intent.putExtra("IMAGE_ID", links.get(position).getId());
+            intent.putExtra(IMAGE_URL,  links.get(position).getImageLink());
+            intent.putExtra(IMAGE_STATUS, links.get(position).getStatus());
         });
 
         try {

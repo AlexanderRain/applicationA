@@ -1,4 +1,4 @@
-package com.example.a.ui.adapter.utils;
+package com.example.a.ui.adapter.OnClickListener;
 
 import android.view.View;
 

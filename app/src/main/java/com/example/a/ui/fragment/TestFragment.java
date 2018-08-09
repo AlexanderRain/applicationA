@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.a.R;
+
+import java.util.regex.Matcher;
+
+import static com.example.a.utils.Constants.ACTION;
+import static com.example.a.utils.Constants.IMAGE_URL;
+import static com.example.a.utils.Constants.INTENT_SENDER;
+import static com.example.a.utils.Constants.TEST_TAB;
 
 
 public class TestFragment extends Fragment {
@@ -25,8 +33,6 @@ public class TestFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Фрагмент не сдохнет при повороте екрана,
-        //поля не инициализируются заново
         setRetainInstance(true);
     }
 
@@ -44,28 +50,37 @@ public class TestFragment extends Fragment {
         textField = view.findViewById(R.id.link);
         button = view.findViewById(R.id.button);
 
-        button.setOnClickListener( onClickListener  -> {
-            // текст в строку без пробелов
-            exportLink(textField.getText().toString().trim());
+        button.setOnClickListener(onClickListener -> {
+            checkForCorrectUrl(textField.getText().toString().trim());
         });
     }
 
-    public void exportLink(String url) {
-        if (url.length() == 0) {
-            Toast.makeText(getActivity(), "Заполните поле", Toast.LENGTH_SHORT).show();
-        } else {
-            Intent intent = new Intent("com.example.b.MainActivity");
-            intent.putExtra("FROM", "OK");
-            intent.putExtra("IMAGE_LINK", url);
+    public void checkForCorrectUrl(String imageUrl) {
+        Matcher pattern = Patterns.WEB_URL.matcher(imageUrl);
 
-            try {
-                startActivity(intent);
-                Log.e("Log", "STARTED");
-            } catch (ActivityNotFoundException exception) {
-                Toast.makeText(getActivity(), "Приложение В не установлено", Toast.LENGTH_SHORT).show();
-                Log.e("Log", "ActivityNotFoundException: " + exception);
-            }
+        if (imageUrl.length() == 0) {
+            Toast.makeText(getActivity(), "Заполните поле", Toast.LENGTH_SHORT).show();
+
+        } else if (!pattern.matches()) {
+            Toast.makeText(getActivity(), "Введите ссылку", Toast.LENGTH_SHORT).show();
+
+        } else if (pattern.matches()) {
+
+            exportLink(imageUrl);
         }
     }
 
+    public void exportLink(String url) {
+        Intent intent = new Intent(ACTION);
+        intent.putExtra(IMAGE_URL, url);
+
+        try {
+            startActivity(intent);
+
+        } catch (ActivityNotFoundException exception) {
+            Toast.makeText(getActivity(), "Приложение В не установлено", Toast.LENGTH_SHORT).show();
+            Log.e("Log", "ActivityNotFoundException: " + exception);
+        }
+    }
 }
+

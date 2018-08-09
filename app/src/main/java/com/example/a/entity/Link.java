@@ -5,11 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverters;
-
-import com.example.a.model.room.converters.DateConverter;
-
-import java.util.Date;
 
 @Entity(tableName = "link",
         indices = {@Index(value = {"imageLink"}, unique = true)})
@@ -26,17 +21,16 @@ public class Link {
     private int status;
 
     @ColumnInfo(name = "time")
-    @TypeConverters({DateConverter.class})
-    private Date date;
+    private String date;
 
-    public Link(String imageLink, int status, Date date) {
+    public Link(String imageLink, int status, String date) {
         this.imageLink = imageLink;
         this.status = status;
         this.date = date;
     }
 
     @Ignore
-    public Link(long id, String imageLink, int status, Date date) {
+    public Link(long id, String imageLink, int status, String date) {
         this.id = id;
         this.imageLink = imageLink;
         this.status = status;
@@ -67,11 +61,11 @@ public class Link {
         this.status = status;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setString(String date) {
         this.date = date;
     }
 }

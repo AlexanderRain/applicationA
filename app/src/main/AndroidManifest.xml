@@ -33,6 +33,7 @@
             <intent-filter>
                 <action android:name="sendToDatabase" />
             </intent-filter>
+
         </receiver>
     </application>
 

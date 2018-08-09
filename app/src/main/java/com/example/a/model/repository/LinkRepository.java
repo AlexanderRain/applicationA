@@ -76,7 +76,7 @@ public class LinkRepository {
         );
     }
 
-    public void deleteByIdRxJava(Long id) {
+    public void deleteByIdRxJava(int id) {
         mDisposable.add(deleteLinkById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

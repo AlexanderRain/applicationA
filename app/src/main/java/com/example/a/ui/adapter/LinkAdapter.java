@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.a.R;
 import com.example.a.entity.Link;
-import com.example.a.ui.adapter.utils.OnItemClickListener;
+import com.example.a.ui.adapter.OnClickListener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,7 +9,7 @@ import com.example.a.model.interactor.Interactor;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.a.ui.adapter.utils.Constants.*;
+import static com.example.a.utils.Constants.*;
 
 public class Presenter extends AndroidViewModel {
     HistoryView view;
@@ -53,12 +53,7 @@ public class Presenter extends AndroidViewModel {
         super.onCleared();
     }
 
-    // ВРЕМЕННО !!!
-    public void insertLink(Link exampleLink) {
-        interactor.getmRepository().insertRxJava(exampleLink);
-    }
-
-    public void exportChosenLink(int position) {
+    public void getChosenLink(int position) {
         view.exportChosenLink(interactor.getmRepository().getmAllLinks(), position);
     }
 }
