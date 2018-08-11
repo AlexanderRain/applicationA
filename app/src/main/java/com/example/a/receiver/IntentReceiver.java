@@ -8,14 +8,7 @@ import android.util.Log;
 import com.example.a.entity.Link;
 import com.example.a.model.interactor.Interactor;
 
-import static com.example.a.utils.Constants.DELETE;
-import static com.example.a.utils.Constants.IMAGE_ACTION;
-import static com.example.a.utils.Constants.IMAGE_DATE;
-import static com.example.a.utils.Constants.IMAGE_STATUS;
-import static com.example.a.utils.Constants.IMAGE_URL;
-import static com.example.a.utils.Constants.INSERT;
-import static com.example.a.utils.Constants.UNDEFINED;
-import static com.example.a.utils.Constants.UPDATE;
+import static com.example.a.utils.Constants.*;
 
 public class IntentReceiver extends BroadcastReceiver {
 
@@ -23,10 +16,11 @@ public class IntentReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("Log", "RECIVED");
+        Log.e("Log", "RECEIVED");
         interactor = new Interactor(context);
 
         String action = intent.getStringExtra(IMAGE_ACTION);
+        long imageID = intent.getLongExtra(IMAGE_ID, -1);
         String imageURL = intent.getStringExtra(IMAGE_URL);
         String imageDate = intent.getStringExtra(IMAGE_DATE);
         int imageStatus = intent.getIntExtra(IMAGE_STATUS, UNDEFINED);
@@ -43,8 +37,7 @@ public class IntentReceiver extends BroadcastReceiver {
                 break;
 
             case DELETE:
-                Link link3 = new Link(imageURL, imageStatus, imageDate);
-                interactor.getmRepository().deleteRxJava(link3);
+                interactor.getmRepository().deleteByIdRxJava(imageID);
                 break;
 
         }

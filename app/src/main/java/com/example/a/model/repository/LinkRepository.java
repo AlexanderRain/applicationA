@@ -44,10 +44,6 @@ public class LinkRepository {
         return Completable.fromAction(() -> mLinkDao.update(link));
     }
 
-    private Completable deleteLink(Link link) {
-        return Completable.fromAction(() -> mLinkDao.delete(link));
-    }
-
     private Completable deleteLinkById(long id) {
         return Completable.fromAction(() -> mLinkDao.deleteById(id));
     }
@@ -68,15 +64,7 @@ public class LinkRepository {
         );
     }
 
-    public void deleteRxJava(Link link) {
-        mDisposable.add(deleteLink(link)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> Log.e("Log", "Delete"), throwable -> Log.e("Log", "Unable to delete", throwable))
-        );
-    }
-
-    public void deleteByIdRxJava(int id) {
+    public void deleteByIdRxJava(long id) {
         mDisposable.add(deleteLinkById(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -27,6 +27,4 @@ public interface LinkDao {
     @Update
     void update(Link link);
 
-    @Delete
-    void delete(Link link);
 }
