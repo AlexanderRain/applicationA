@@ -138,13 +138,13 @@ public class HistoryFragment extends Fragment implements HistoryView {
     }
 
     @Override
-    public void exportChosenLink(final LiveData<List<Link>> linkList, int position) {
+    public void exportChosenLink(final LiveData<List<Link>> linkList, final int position) {
         Intent intent = new Intent("com.example.b.activity.presentation.ui.activities.MainActivity");
 
         linkList.observe(this, links -> {
             intent.putExtra(IMAGE_URL,  links.get(position).getImageLink());
             intent.putExtra(IMAGE_STATUS, links.get(position).getStatus());
-            intent.putExtra(IMAGE_DATE, links.get(position).getDate());
+            intent.putExtra(IMAGE_ID, links.get(position).getId());
         });
 
         try {

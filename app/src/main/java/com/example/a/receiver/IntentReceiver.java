@@ -20,7 +20,7 @@ public class IntentReceiver extends BroadcastReceiver {
         interactor = new Interactor(context);
 
         String action = intent.getStringExtra(IMAGE_ACTION);
-        long imageID = intent.getLongExtra(IMAGE_ID, -1);
+        long imageID = intent.getLongExtra(IMAGE_ID, DEFAULT_ID);
         String imageURL = intent.getStringExtra(IMAGE_URL);
         String imageDate = intent.getStringExtra(IMAGE_DATE);
         int imageStatus = intent.getIntExtra(IMAGE_STATUS, UNDEFINED);

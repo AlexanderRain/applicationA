@@ -21,8 +21,6 @@ import java.util.regex.Matcher;
 
 import static com.example.a.utils.Constants.ACTION;
 import static com.example.a.utils.Constants.IMAGE_URL;
-import static com.example.a.utils.Constants.INTENT_SENDER;
-import static com.example.a.utils.Constants.TEST_TAB;
 
 
 public class TestFragment extends Fragment {
@@ -65,7 +63,6 @@ public class TestFragment extends Fragment {
             Toast.makeText(getActivity(), "Введите ссылку", Toast.LENGTH_SHORT).show();
 
         } else if (pattern.matches()) {
-
             exportLink(imageUrl);
         }
     }
