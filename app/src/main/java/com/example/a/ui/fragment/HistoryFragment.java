@@ -144,6 +144,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         linkList.observe(this, links -> {
             intent.putExtra(IMAGE_URL,  links.get(position).getImageLink());
             intent.putExtra(IMAGE_STATUS, links.get(position).getStatus());
+            intent.putExtra(IMAGE_DATE, links.get(position).getDate());
         });
 
         try {

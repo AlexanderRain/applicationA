@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.a.model.repository.LinkRepository;
 
-// ЭТО БЫВШИЙ LinkViewModel,
 public class Interactor {
 
     private LinkRepository linkRepository;

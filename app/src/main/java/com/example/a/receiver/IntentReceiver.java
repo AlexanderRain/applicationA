@@ -38,12 +38,13 @@ public class IntentReceiver extends BroadcastReceiver {
                 break;
 
             case UPDATE:
-                //Link link2 = new Link(imageURL, 1, imageDate);
-                //interactor.getmRepository().updateRxJava(link2);
+                Link link2 = new Link(imageURL, imageStatus, imageDate);
+                interactor.getmRepository().updateRxJava(link2);
                 break;
 
             case DELETE:
-               // interactor.getmRepository().deleteByIdRxJava(imageID);
+                Link link3 = new Link(imageURL, imageStatus, imageDate);
+                interactor.getmRepository().deleteRxJava(link3);
                 break;
 
         }
