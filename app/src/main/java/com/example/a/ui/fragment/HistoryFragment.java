@@ -27,7 +27,6 @@ import com.example.a.presentor.Presenter;
 import com.example.a.ui.adapter.LinkAdapter;
 import com.example.a.ui.adapter.OnClickListener.OnItemClickListener;
 
-
 import java.util.List;
 
 import static com.example.a.utils.Constants.*;
@@ -49,7 +48,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        if(presenter == null){
+        if(presenter == null) {
             presenter = new Presenter(this.getActivity().getApplication(), this);
         }
     }
@@ -137,20 +136,20 @@ public class HistoryFragment extends Fragment implements HistoryView {
         return true;
     }
 
+    // Alexander Rain:
+    // НЕТ БЛЯТЬ, НУ ТЫ ПРЕДСТАВЛЯЕШЬ СЕБЕ ТАКОЕ Я ПОФИКСИЛ ЭТУ ПОЕБОТНЮ
     @Override
-    public void exportChosenLink(final LiveData<List<Link>> linkList, final int position) {
-        Intent intent = new Intent("com.example.b.activity.presentation.ui.activities.MainActivity");
+    public void exportChosenLink(Link link) {
+        Intent intent = new Intent(ACTION);
 
-        linkList.observe(this, links -> {
-            intent.putExtra(IMAGE_URL,  links.get(position).getImageLink());
-            intent.putExtra(IMAGE_STATUS, links.get(position).getStatus());
-            intent.putExtra(IMAGE_ID, links.get(position).getId());
-        });
+        intent.putExtra(IMAGE_URL, link.getImageLink());
+        intent.putExtra(IMAGE_STATUS, link.getStatus());
+        intent.putExtra(IMAGE_ID, link.getId());
 
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException exception) {
-            Toast.makeText(getActivity(),"Приложение В не установлено", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Приложение В не установлено", Toast.LENGTH_SHORT).show();
             Log.e("Log", "ActivityNotFoundException: " + exception);
         }
     }

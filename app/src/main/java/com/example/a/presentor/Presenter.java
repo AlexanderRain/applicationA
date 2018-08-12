@@ -18,8 +18,6 @@ public class Presenter extends AndroidViewModel {
     public Presenter(Application application, HistoryView view) {
         super(application);
         this.view = view;
-        //historyFragment нужен для єтого метода, а там хз возможно можно проще
-        //єто из-за бд, так шо Лужецкий разберись xD)
 
         interactor = new Interactor(application);
     }
@@ -47,13 +45,16 @@ public class Presenter extends AndroidViewModel {
         }
     }
 
+    // Alexander Rain: теперь метод соответствует названию,
+    // он джействительно берет ССЫЛКУ, а не листы лайвдаты
+    public void getChosenLink(int position) {
+        view.exportChosenLink(interactor.getmRepository().getmAllLinks().getValue().get(position));
+    }
+
     @Override
     protected void onCleared() {
         interactor.getmRepository().unsubscribeRxJava();
         super.onCleared();
     }
 
-    public void getChosenLink(int position) {
-        view.exportChosenLink(interactor.getmRepository().getmAllLinks(), position);
-    }
 }

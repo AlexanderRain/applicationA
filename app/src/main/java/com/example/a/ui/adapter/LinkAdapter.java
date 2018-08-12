@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 // devcolibri Урок 11. Работа с RecyclerView на примере TweetsRecyclerView
 public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder> {
 
-    // TO DO: onClickListener
     private List<Link> linksList = new ArrayList<>();
     OnItemClickListener.OnItemClickCallback onItemClickCallback;
 
@@ -88,7 +87,6 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
             setLinkColor(link.getStatus());
         }
 
-        // Метод со свечкой, тут все очевидно
         private void setLinkColor(int status) {
             switch (status) {
                 case 1:

@@ -11,6 +11,6 @@ public interface HistoryView {
 
     void setLinksList(final LiveData<List<Link>> linkList);
     void showSortDialog();
-    void exportChosenLink(final LiveData<List<Link>> linkList, int position);
+    void exportChosenLink(Link link);
 
 }
