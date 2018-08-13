@@ -1,6 +1,9 @@
 package com.example.a.ui.fragment;
 
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,7 +28,7 @@ import static com.example.a.utils.Constants.IMAGE_URL;
 
 public class TestFragment extends Fragment {
     private View view;
-    private Button button;
+    ClipboardManager clipboardManager;
     private EditText textField;
 
     @Override
@@ -46,11 +49,20 @@ public class TestFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         textField = view.findViewById(R.id.link);
-        button = view.findViewById(R.id.button);
+        Button buttonOk = view.findViewById(R.id.buttonOk);
+        Button buttonClear = view.findViewById(R.id.buttonClear);
 
-        button.setOnClickListener(onClickListener -> {
-            checkForCorrectUrl(textField.getText().toString().trim());
-        });
+        buttonOk.setOnClickListener(onClickListener -> checkForCorrectUrl(textField.getText().toString().trim()));
+        buttonClear.setOnClickListener(onClickListener -> textField.setText(""));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        clipboardManager = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        textField = view.findViewById(R.id.link);
+        textField.setText(clipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
     }
 
     public void checkForCorrectUrl(String imageUrl) {

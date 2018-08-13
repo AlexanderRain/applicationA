@@ -7,4 +7,5 @@
     <string name="button_sort">Отсортировать</string>
     <string name="button_cancel">Отмена</string>
     <string name="sort_title">Сортировка</string>
+    <string name="clear">Очистить</string>
 </resources>
