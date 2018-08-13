@@ -20,6 +20,10 @@ public final class Constants {
     public static final String SUCCESS_ERROR = "success_error";
     public static final String ERROR_SUCCESS = "error_success";
 
+    public static final String APP_PREFERENCES = "settings";
+    public static final String APP_PREFERENCES_SORTING_MODE = "sorting_mode";
+    public static final String APP_PREFERENCES_RADIO_BUTTON = "radio_button";
+
     public static final String IMAGE_ACTION = "image_action";
     public static final String INSERT = "insert";
     public static final String UPDATE = "update";

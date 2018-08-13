@@ -3,7 +3,9 @@ package com.example.a.ui.fragment;
 import android.app.AlertDialog;
 import android.arch.lifecycle.LiveData;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +30,7 @@ import com.example.a.ui.adapter.LinkAdapter;
 import com.example.a.ui.adapter.OnClickListener.OnItemClickListener;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.a.utils.Constants.*;
 
@@ -39,8 +42,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
 
     Presenter presenter;
 
-    String currentSortingMode = OLD_NEW;   //Eugene: Значение текущего режима сортировки (Constants.java)
-    int currentRadioButton;   //Eugene: ID текущей выбраной кнопки сортировки (для сохранения выбора)
+    private SharedPreferences mSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class HistoryFragment extends Fragment implements HistoryView {
         if(presenter == null) {
             presenter = new Presenter(this.getActivity().getApplication(), this);
         }
+
+        mSettings = Objects.requireNonNull(getContext()).getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -85,7 +89,7 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @Override
     public void setLinksList(final LiveData<List<Link>> linkList) {
         linkList.observe(this, links -> {
-            presenter.sortLinksList(links, currentSortingMode);
+            presenter.sortLinksList(links, mSettings.getString(APP_PREFERENCES_SORTING_MODE, OLD_NEW));
             linkAdapter.setData(links);
         });
         linkAdapter.notifyDataSetChanged();
@@ -94,27 +98,32 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @Override
     public void showSortDialog() {
         View root = getLayoutInflater().inflate(R.layout.sort_dialog, null);
+        SharedPreferences.Editor editor = mSettings.edit();
         RadioGroup radioGroup = root.findViewById(R.id.radioGroup);
-        if(currentRadioButton != 0) radioGroup.check(currentRadioButton);
+
+        radioGroup.check(mSettings.getInt(APP_PREFERENCES_RADIO_BUTTON, R.id.radio_old_new));
 
         new AlertDialog.Builder(getContext())
                 .setView(root)
                 .setTitle(R.string.sort_title)
                 .setPositiveButton(R.string.button_sort, (dialogInterface, i) -> {
-                    switch (currentRadioButton = radioGroup.getCheckedRadioButtonId()) {
+                    int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                    editor.putInt(APP_PREFERENCES_RADIO_BUTTON, radioButtonId);
+                    switch (radioButtonId) {
                         case R.id.radio_old_new:
-                            currentSortingMode = OLD_NEW;
+                            editor.putString(APP_PREFERENCES_SORTING_MODE, OLD_NEW);
                             break;
                         case R.id.radio_new_old:
-                            currentSortingMode = NEW_OLD;
+                            editor.putString(APP_PREFERENCES_SORTING_MODE, NEW_OLD);
                             break;
                         case R.id.radio_success_error:
-                            currentSortingMode = SUCCESS_ERROR;
+                            editor.putString(APP_PREFERENCES_SORTING_MODE, SUCCESS_ERROR);
                             break;
                         case R.id.radio_error_success:
-                            currentSortingMode = ERROR_SUCCESS;
+                            editor.putString(APP_PREFERENCES_SORTING_MODE, ERROR_SUCCESS);
                             break;
                     }
+                    editor.apply();
                     presenter.getImageList();
                 })
                 .setNegativeButton(R.string.button_cancel, (dialogInterface, i) -> dialogInterface.cancel())
