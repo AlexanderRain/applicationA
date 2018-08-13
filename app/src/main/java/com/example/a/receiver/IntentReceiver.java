@@ -20,7 +20,7 @@ public class IntentReceiver extends BroadcastReceiver {
         interactor = new Interactor(context);
 
         String action = intent.getStringExtra(IMAGE_ACTION);
-        long imageID = intent.getLongExtra(IMAGE_ID, DEFAULT_ID);
+        long imageId = intent.getLongExtra(IMAGE_ID, DEFAULT_ID);
         String imageURL = intent.getStringExtra(IMAGE_URL);
         String imageDate = intent.getStringExtra(IMAGE_DATE);
         int imageStatus = intent.getIntExtra(IMAGE_STATUS, UNDEFINED);
@@ -32,12 +32,12 @@ public class IntentReceiver extends BroadcastReceiver {
                 break;
 
             case UPDATE:
-                Link link2 = new Link(imageURL, imageStatus, imageDate);
+                Link link2 = new Link(imageId, imageURL, imageStatus, imageDate);
                 interactor.getmRepository().updateRxJava(link2);
                 break;
 
             case DELETE:
-                interactor.getmRepository().deleteByIdRxJava(imageID);
+                interactor.getmRepository().deleteByIdRxJava(imageId);
                 break;
 
         }

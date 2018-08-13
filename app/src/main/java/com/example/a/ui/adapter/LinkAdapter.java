@@ -18,6 +18,10 @@ import java.util.List;
 
 import android.support.annotation.NonNull;
 
+import static com.example.a.utils.Constants.ERROR;
+import static com.example.a.utils.Constants.INSERTED;
+import static com.example.a.utils.Constants.UNDEFINED;
+
 // Если вдруг надо, читал тут
 // devcolibri Урок 11. Работа с RecyclerView на примере TweetsRecyclerView
 public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder> {
@@ -89,13 +93,13 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
 
         private void setLinkColor(int status) {
             switch (status) {
-                case 1:
+                case INSERTED:
                     imageLinkContainer.setBackgroundColor(context.getResources().getColor(R.color.green));
                     break;
-                case 2:
+                case ERROR:
                     imageLinkContainer.setBackgroundColor(context.getResources().getColor(R.color.red));
                     break;
-                case 3:
+                case UNDEFINED:
                     imageLinkContainer.setBackgroundColor(context.getResources().getColor(R.color.gray));
                     break;
             }

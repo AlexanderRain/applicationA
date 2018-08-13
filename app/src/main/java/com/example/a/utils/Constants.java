@@ -10,7 +10,7 @@ public final class Constants {
     public static final String IMAGE_STATUS = "image_status";
     public static final String IMAGE_DATE = "image_date";
     public static final long DEFAULT_ID = -1;
-    public static final int DEFAULT = 1;
+    public static final int INSERTED = 1;
     public static final int ERROR = 2;
     public static final int UNDEFINED = 3;
 
