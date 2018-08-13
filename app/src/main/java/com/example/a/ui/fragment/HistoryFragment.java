@@ -145,8 +145,6 @@ public class HistoryFragment extends Fragment implements HistoryView {
         return true;
     }
 
-    // Alexander Rain:
-    // НЕТ БЛЯТЬ, НУ ТЫ ПРЕДСТАВЛЯЕШЬ СЕБЕ ТАКОЕ Я ПОФИКСИЛ ЭТУ ПОЕБОТНЮ
     @Override
     public void exportChosenLink(Link link) {
         Intent intent = new Intent(ACTION);
