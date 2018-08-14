@@ -1,7 +1,6 @@
 package com.example.a.ui.fragment;
 
 import android.content.ActivityNotFoundException;
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;

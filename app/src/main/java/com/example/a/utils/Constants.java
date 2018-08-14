@@ -4,7 +4,7 @@ public final class Constants {
 
     public static final String ACTION = "com.example.b.activity.presentation.ui.activities.MainActivity";
 
-    // keys for intents
+    //keys for intents
     public static final String IMAGE_ID = "image_id";
     public static final String IMAGE_URL = "image_url";
     public static final String IMAGE_STATUS = "image_status";

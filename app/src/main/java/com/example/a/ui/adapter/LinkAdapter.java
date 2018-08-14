@@ -22,8 +22,6 @@ import static com.example.a.utils.Constants.ERROR;
 import static com.example.a.utils.Constants.INSERTED;
 import static com.example.a.utils.Constants.UNDEFINED;
 
-// Если вдруг надо, читал тут
-// devcolibri Урок 11. Работа с RecyclerView на примере TweetsRecyclerView
 public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder> {
 
     private List<Link> linksList = new ArrayList<>();
@@ -33,14 +31,11 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
         this.onItemClickCallback = onItemClickCallback;
     }
 
-//Этим методом инициализирую ^ вон в тот лист, листом из ДБ
     public void setData(List<Link> linksList){
             this.linksList = linksList;
             notifyDataSetChanged();
     }
 
-    // Требует переопределения, создает собственно вьюху
-    // для ссылки, то есть одну строку
     @NonNull
     @Override
     public LinkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,33 +44,23 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
         return new LinkViewHolder(view);
     }
 
-    // Требует переопределения, связь вьюхи с джава классами
-    // так сказать дает логику картике
     @Override
     public void onBindViewHolder(@NonNull LinkViewHolder holder, int position) {
         Link link = linksList.get(position);
         holder.bind(link, position);
     }
 
-    // Требует переопределения (не понял где он вызывается)
     @Override
     public int getItemCount() {
         return linksList.size();
     }
 
-    // Предоставляет прямую ссылку на каждый View-компонент
-    // Используется для кэширования View-компонентов и последующего быстрого доступа к ним
     class LinkViewHolder extends RecyclerView.ViewHolder {
-        // Ваш ViewHolder должен содержать переменные для всех
-        // View-компонентов, которым вы хотите задавать какие-либо свойства
-        // в процессе работы пользователя со списком
 
         Context context;
         TextView imageTextView;
         ConstraintLayout imageLinkContainer;
 
-        // Конструктор, который принимает на вход View-компонент строки
-        // и ищет все дочерние компоненты
         LinkViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
@@ -84,7 +69,6 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.LinkViewHolder
             imageTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         }
 
-        // Заполняет контейнер ссылкой и цветом
         void bind(Link link, int position){
             imageLinkContainer.setOnClickListener(new OnItemClickListener(position, onItemClickCallback));
             imageTextView.setText(link.getImageLink());

@@ -45,8 +45,6 @@ public class Presenter extends AndroidViewModel {
         }
     }
 
-    // Alexander Rain: теперь метод соответствует названию,
-    // он джействительно берет ССЫЛКУ, а не листы лайвдаты
     public void getChosenLink(int position) {
         view.exportChosenLink(interactor.getmRepository().getmAllLinks().getValue().get(position));
     }

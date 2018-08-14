@@ -18,14 +18,8 @@ import io.reactivex.schedulers.Schedulers;
 public class LinkRepository {
 
     Context application;
-
     private LinkDao mLinkDao;
-
     private LiveData<List<Link>> mAllLinks;
-
-    public LiveData<List<Link>> getmAllLinks() {
-        return mAllLinks;
-    }
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
@@ -34,6 +28,10 @@ public class LinkRepository {
         LinkRoomDatabase database = LinkRoomDatabase.getDatabase(application);
         mLinkDao = database.linkDao();
         mAllLinks = mLinkDao.getAllLinks();
+    }
+
+    public LiveData<List<Link>> getmAllLinks() {
+        return mAllLinks;
     }
 
     private Completable insertLink(Link link) {
