@@ -24,11 +24,14 @@ import java.util.regex.Matcher;
 import static com.example.a.utils.Constants.ACTION;
 import static com.example.a.utils.Constants.IMAGE_URL;
 
-
 public class TestFragment extends Fragment {
-    private View view;
-    ClipboardManager clipboardManager;
+
+    private ClipboardManager clipboardManager;
+    private static final String TAG = "TestFragment";
+
     private EditText textField;
+    private Button buttonClear;
+    private Button buttonOk;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,39 +42,32 @@ public class TestFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.test_fragment, container, false);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
+        View view = inflater.inflate(R.layout.test_fragment, container, false);
         textField = view.findViewById(R.id.link);
-        Button buttonOk = view.findViewById(R.id.buttonOk);
-        Button buttonClear = view.findViewById(R.id.buttonClear);
-
-        buttonOk.setOnClickListener(onClickListener -> checkForCorrectUrl(textField.getText().toString().trim()));
+        buttonOk = view.findViewById(R.id.buttonOk);
+        buttonClear = view.findViewById(R.id.buttonClear);
+        buttonOk.setOnClickListener(onClickListener -> validate(textField.getText().toString().trim()));
         buttonClear.setOnClickListener(onClickListener -> textField.setText(""));
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        clipboardManager = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        textField = view.findViewById(R.id.link);
-        textField.setText(clipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
+        clipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            textField.setText(clipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
+        }
     }
 
-    public void checkForCorrectUrl(String imageUrl) {
+    public void validate(String imageUrl) {
         Matcher pattern = Patterns.WEB_URL.matcher(imageUrl);
 
         if (imageUrl.length() == 0) {
-            Toast.makeText(getActivity(), "Заполните поле", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Fill teh field", Toast.LENGTH_SHORT).show();
 
         } else if (!pattern.matches()) {
-            Toast.makeText(getActivity(), "Введите ссылку", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Enter a link", Toast.LENGTH_SHORT).show();
 
         } else if (pattern.matches()) {
             exportLink(imageUrl);
@@ -84,11 +80,24 @@ public class TestFragment extends Fragment {
 
         try {
             startActivity(intent);
-
         } catch (ActivityNotFoundException exception) {
-            Toast.makeText(getActivity(), "Приложение В не установлено", Toast.LENGTH_SHORT).show();
-            Log.e("Log", "ActivityNotFoundException: " + exception);
+            Toast.makeText(getActivity(), "Image viewer is not installed!", Toast.LENGTH_SHORT).show();
+            Log.e(TAG,"ActivityNotFoundException: " + exception);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.textField = null;
+        this.buttonOk = null;
+        this.buttonClear = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.clipboardManager = null;
     }
 }
 

@@ -12,8 +12,8 @@ import java.util.List;
 import static com.example.a.utils.Constants.*;
 
 public class Presenter extends AndroidViewModel {
-    HistoryView view;
-    Interactor interactor;
+    private HistoryView view;
+    private Interactor interactor;
 
     public Presenter(Application application, HistoryView view) {
         super(application);
@@ -52,6 +52,8 @@ public class Presenter extends AndroidViewModel {
     @Override
     protected void onCleared() {
         interactor.getmRepository().unsubscribeRxJava();
+        this.interactor = null;
+        this.view = null;
         super.onCleared();
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Application A</string>
+    <string name="app_name">Image-Handler</string>
     <string name="sort_old_new">От старых к новым</string>
     <string name="sort_new_old">От новых к старым</string>
     <string name="sort_success_error">Сначала успешно загруженные</string>

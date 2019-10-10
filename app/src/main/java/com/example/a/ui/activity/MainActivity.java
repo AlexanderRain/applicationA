@@ -26,10 +26,18 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new TestFragment(), "Тест");
-        viewPagerAdapter.addFragment(new HistoryFragment(), "История");
+        viewPagerAdapter.addFragment(new TestFragment(), "Test");
+        viewPagerAdapter.addFragment(new HistoryFragment(), "History");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        tabLayout = null;
+        viewPager = null;
+        viewPagerAdapter = null;
     }
 }

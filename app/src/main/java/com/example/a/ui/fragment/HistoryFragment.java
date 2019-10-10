@@ -35,12 +35,10 @@ import java.util.Objects;
 import static com.example.a.utils.Constants.*;
 
 public class HistoryFragment extends Fragment implements HistoryView {
-    View view;
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    LinkAdapter linkAdapter;
+    private RecyclerView recyclerView;
+    private LinkAdapter linkAdapter;
 
-    Presenter presenter;
+    private Presenter presenter;
 
     private SharedPreferences mSettings;
 
@@ -60,28 +58,23 @@ public class HistoryFragment extends Fragment implements HistoryView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.history_fragment, container, false);
+        View view = inflater.inflate(R.layout.history_fragment, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linkAdapter = new LinkAdapter(onItemClickCallback);
+        recyclerView.setAdapter(linkAdapter);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        recyclerView = view.findViewById(R.id.recycler_view);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        linkAdapter = new LinkAdapter(onItemClickCallback);
-
         presenter.getImageList();
-        recyclerView.setAdapter(linkAdapter);
-
     }
 
     OnItemClickListener.OnItemClickCallback onItemClickCallback = new OnItemClickListener.OnItemClickCallback() {
         @Override
         public void onItemClicked(View view, int position) {
-            Log.e("Log", " CLICKED " + position);
             presenter.getChosenLink(position);
         }
     };
@@ -156,8 +149,17 @@ public class HistoryFragment extends Fragment implements HistoryView {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException exception) {
-            Toast.makeText(getActivity(), "Приложение В не установлено", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Image viewer is not installed!", Toast.LENGTH_SHORT).show();
             Log.e("Log", "ActivityNotFoundException: " + exception);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.linkAdapter = null;
+        this.mSettings = null;
+        this.onItemClickCallback = null;
+        this.recyclerView = null;
     }
 }

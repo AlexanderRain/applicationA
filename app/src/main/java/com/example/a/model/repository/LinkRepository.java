@@ -17,14 +17,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LinkRepository {
 
-    Context application;
     private LinkDao mLinkDao;
     private LiveData<List<Link>> mAllLinks;
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     public LinkRepository(Context application) {
-        this.application = application;
         LinkRoomDatabase database = LinkRoomDatabase.getDatabase(application);
         mLinkDao = database.linkDao();
         mAllLinks = mLinkDao.getAllLinks();
@@ -74,5 +72,7 @@ public class LinkRepository {
         if(!mDisposable.isDisposed()) {
             mDisposable.dispose();
         }
+        this.mAllLinks = null;
+        this.mLinkDao = null;
     }
 }

@@ -3,6 +3,7 @@ package com.example.a.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.example.a.entity.Link;
 import com.example.a.model.interactor.Interactor;
@@ -16,7 +17,6 @@ public class IntentReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         interactor = new Interactor(context);
-
         String action = intent.getStringExtra(IMAGE_ACTION);
         long imageId = intent.getLongExtra(IMAGE_ID, DEFAULT_ID);
         String imageURL = intent.getStringExtra(IMAGE_URL);
